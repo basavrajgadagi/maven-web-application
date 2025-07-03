@@ -1,0 +1,32 @@
+node{
+
+def mavenHome = tool name: 'maven3.9.9'
+
+echo "The Job name is: ${env.JOB_NAME}"
+echo "Node name is: ${env.NODE_NAME}"
+echo "Jenkins Home dir is: ${env.JENKINS_HOME}"
+echo "Jenkins URL is: ${env.JENKINS_URL}"
+
+stage('CheckOutCode'){
+git branch: 'development', credentialsId: 'def9eef7-6b77-4d7b-b024-1be52e4f9c6f', url: 'https://github.com/basavrajgadagi/maven-web-application.git'
+}
+
+stage('Build'){
+sh "${mavenHome}/bin/mvn clean package"
+}
+
+stage('ExecuteSonarQubeReport'){
+sh "${mavenHome}/bin/mvn clean sonar:sonar"
+}
+
+stage('UploadArtifactIntoNexusRepo'){
+sh "${mavenHome}/bin/mvn clean deploy"
+}
+
+stage('DeployAppIntoTomcatServer'){
+sshagent(['172a1a94-1b84-4c21-ad67-3121f622bcee']) {
+ sh "scp -o StrictHostKeyChecking=no target/maven-web-application.war ec2-user@172.31.41.115:/opt/apache-tomcat-9.0.105/webapps/"    
+}
+}
+
+}

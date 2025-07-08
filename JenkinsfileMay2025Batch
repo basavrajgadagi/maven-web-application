@@ -1,4 +1,4 @@
-node('nodeisnode'){
+node('node'){
 
 def mavenHome = tool name: 'maven3.9.9'
 

@@ -34,8 +34,21 @@ pipeline{
         {
             steps()
             {
-                sh 'docker build -t mithuntechnologies/dockercicd:${buildNumber} .'
+                sh 'docker build -t basavrajgadagi/dockercicd:${buildNumber} .'
             }
+        }
+
+        stage('Push Docker Image to Docker Hub Registry')
+        {
+            stpes(
+                {
+                    withCredentials([string(credentialsId: 'Docker_Hub_Password', variable: 'Docker_Hub_Password')])
+                    {
+                        sh 'docker login -u BasavrajGadagi -p ${Docker_Hub_Password}'
+                    }
+                    sh 'docker push basavrajgadagi/dockercicd:${buildNumber}'
+                }
+            )
         }
     }
 }

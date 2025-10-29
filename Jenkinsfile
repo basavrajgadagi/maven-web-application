@@ -44,7 +44,7 @@ pipeline{
                 {
                     withCredentials([string(credentialsId: 'Docker_Hub_Password', variable: 'Docker_Hub_Password')])
                     {
-                        sh 'docker login -u basavrajgadagi -p ${Docker_Hub_Password}'
+                            sh 'docker login -u basavrajgadagi -p ${Docker_Hub_Password}'
                     }
                     sh 'docker push basavrajgadagi/dockercicd:${buildNumber}'
                 }

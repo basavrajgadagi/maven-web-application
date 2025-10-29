@@ -34,7 +34,7 @@ pipeline{
         {
             steps()
             {
-                sh 'docker build -t basavrajgadagi/dockercicd:${buildNumber} .'
+                sh 'docker build -t mithuntechnologies/dockercicd:${buildNumber} .'
             }
         }
 
@@ -44,9 +44,9 @@ pipeline{
                 {
                     withCredentials([string(credentialsId: 'Docker_Hub_Password', variable: 'Docker_Hub_Password')])
                     {
-                            sh 'docker login -u basavrajgadagi -p ${Docker_Hub_Password}'
+                            sh 'docker login -u mithuntechnologies -p ${Docker_Hub_Password}'
                     }
-                    sh 'docker push basavrajgadagi/dockercicd:${buildNumber}'
+                    sh 'docker push mithuntechnologies/dockercicd:${buildNumber}'
                 }
             )
         }

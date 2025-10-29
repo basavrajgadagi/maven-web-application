@@ -50,5 +50,25 @@ pipeline{
                 }
             )
         }
+
+        stage('Remove Docker Image Locally in Jenkins Server')
+        {
+            steps()
+            {
+                sh 'docker rmi mithuntechnologies/dockercicd:${buildNumber}'
+            }
+        }
+
+        stage('Deploy Application to Docker Deployment Server')
+        {
+            steps()
+            {
+                sshagent(['DeploymentServer_SSH'])
+                {
+                    sh "ssh -o StrictHostKeyChecking=no ubuntu@ docker rm -f mavenwebapplication || true"
+                    sh "ssh -o StrictHostKeyChecking=no ubuntu@ docker run -d --name mavenwebapplication -p 8080:8080 mithuntechnologies/dockercicd:${buildNumber}"
+                }
+            }
+        }
     }
 }

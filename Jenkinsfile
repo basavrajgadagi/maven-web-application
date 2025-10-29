@@ -40,7 +40,7 @@ pipeline{
 
         stage('Push Docker Image to Docker Hub Registry')
         {
-            stpes(
+            steps(
                 {
                     withCredentials([string(credentialsId: 'Docker_Hub_Password', variable: 'Docker_Hub_Password')])
                     {

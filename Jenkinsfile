@@ -42,7 +42,7 @@ pipeline{
         {
             steps(
                 {
-                    wwithCredentials([string(credentialsId: 'Docker_Hub_Password', variable: 'Docker_Hub_Password')])
+                    withCredentials([string(credentialsId: 'Docker_Hub_Password', variable: 'Docker_Hub_Password')])
                     {
                             sh 'docker login -u BasavrajGadagi -p ${Docker_Hub_Password}'
                     }
